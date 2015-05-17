@@ -3,7 +3,7 @@
   (:require
     [reagent.core         :as    reagent]
     [cljs-time.core       :refer [now minus plus months days year month day day-of-week first-day-of-the-month before? after?]]
-    [re-com.validate      :refer [extract-arg-data goog-date? css-style? html-attr?] :refer-macros [validate-args-macro]]
+    [re-com.validate      :refer [goog-date? css-style? html-attr?] :refer-macros [validate-args-macro]]
     [cljs-time.predicates :refer [sunday?]]
     [cljs-time.format     :refer [parse unparse formatters formatter]]
     [re-com.box           :refer [border h-box flex-child-style]]
@@ -202,7 +202,7 @@
 
 (def datepicker-args-desc
   [{:name :model        :required true                        :type "goog.date.UtcDateTime | atom"   :validate-fn goog-date? :description "the selected date. Should match :enabled-days"}
-   {:name :on-change    :required true                        :type "(goog.date.UtcDateTime) -> nil" :validate-fn fn?        :description "called when a new selection is made"}
+   {:name :on-change    :required true                        :type "goog.date.UtcDateTime -> nil"   :validate-fn fn?        :description "called when a new selection is made"}
    {:name :disabled?    :required false :default false        :type "boolean | atom"                                         :description "when true, the can't select dates but can navigate"}
    {:name :enabled-days :required false                       :type "set"                            :validate-fn set?       :description "a subset of #{:Su :Mo :Tu :We :Th :Fr :Sa}. Only dates falling on these days will be user-selectable. Default is all 7 days"}
    {:name :show-weeks?  :required false :default false        :type "boolean"                                                :description "when true, week numbers are shown to the left"}
@@ -213,8 +213,6 @@
    {:name :class        :required false                       :type "string"                         :validate-fn string?    :description "CSS class names, space separated"}
    {:name :style        :required false                       :type "CSS style map"                  :validate-fn css-style? :description "CSS styles to add or override"}
    {:name :attr         :required false                       :type "HTML attr map"                  :validate-fn html-attr? :description [:span "HTML attributes, like " [:code ":on-mouse-move"] [:br] "No " [:code ":class"] " or " [:code ":style"] "allowed"]}])
-
-;(def datepicker-args (extract-arg-data datepicker-args-desc))
 
 (defn datepicker
   [& {:keys [model] :as args}]
@@ -259,8 +257,6 @@
 (def datepicker-dropdown-args-desc
   (conj datepicker-args-desc
     {:name :format  :required false  :default "yyyy MMM dd"  :type "string"   :description "a represenatation of a date format. See cljs_time.format"}))
-
-;(def datepicker-dropdown-args (extract-arg-data datepicker-dropdown-args-desc))
 
 (defn datepicker-dropdown
   [& {:as args}]

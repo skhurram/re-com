@@ -1,7 +1,7 @@
 (ns re-com.input-time
   (:require-macros [re-com.core :refer [handler-fn]])
   (:require [reagent.core    :as    reagent]
-            [re-com.validate :refer [extract-arg-data css-style? html-attr? number-or-string?] :refer-macros [validate-args-macro]]
+            [re-com.validate :refer [css-style? html-attr? number-or-string?] :refer-macros [validate-args-macro]]
             [re-com.text     :refer [label]]
             [re-com.box      :refer [h-box gap]]
             [re-com.util     :refer [pad-zero-number deref-or-value]]))
@@ -126,7 +126,7 @@
 
 (def input-time-args-desc
   [{:name :model        :required true                   :type "integer | string | atom" :validate-fn number-or-string? :description "a time in integer form. e.g. '09:30am' is 930"}
-   {:name :on-change    :required true                   :type "(integer) -> nil"        :validate-fn fn?               :description "called when user entry completes and value is new. Passed new value as integer"}
+   {:name :on-change    :required true                   :type "integer -> nil"          :validate-fn fn?               :description "called when user entry completes and value is new. Passed new value as integer"}
    {:name :minimum      :required false :default 0       :type "integer | string"        :validate-fn number-or-string? :description "user can't enter a time less than this value"}
    {:name :maximum      :required false :default 2359    :type "integer | string"        :validate-fn number-or-string? :description "user can't enter a time more than this value"}
    {:name :disabled?    :required false :default false   :type "boolean | atom"                                         :description "when true, user input is disabled"}
@@ -137,8 +137,6 @@
    {:name :class        :required false                  :type "string"                  :validate-fn string?           :description "CSS class names, space separated"}
    {:name :style        :required false                  :type "CSS style map"           :validate-fn css-style?        :description "CSS style. e.g. {:color \"red\" :width \"50px\"}" }
    {:name :attr         :required false                  :type "HTML attr map"           :validate-fn html-attr?        :description [:span "HTML attributes, like " [:code ":on-mouse-move"] [:br] "No " [:code ":class"] " or " [:code ":style"] "allowed"]}])
-
-;(def input-time-args (extract-arg-data input-time-args-desc))
 
 (defn input-time
   "I return the markup for an input box which will accept and validate times.
